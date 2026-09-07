@@ -45,6 +45,38 @@ graph TD
 
 ---
 
+## Application Screenshots & User Interface
+
+### Web UI - News Feed Dashboard
+![Web UI News Feed Dashboard](docs/images/web_dashboard.png)
+*Single Page Application displaying real-time news articles with category filter pills (Stock Market, Technology, India News, Business, Crypto, Science).*
+
+---
+
+### Web UI - Article Search
+![Web UI Article Search](docs/images/web_search.png)
+*Dedicated Article Search tab allowing users to query stored news articles by topic or keyword.*
+
+---
+
+### Web UI - Topic Subscriptions
+![Web UI Topic Subscriptions](docs/images/web_subscriptions.png)
+*User subscription management interface for scheduling daily automated news digests.*
+
+---
+
+### WhatsApp Webhook - Latest News Query
+![WhatsApp Webhook Latest News](docs/images/whatsapp_latest_news.png)
+*Real-time WhatsApp interaction showing automated top news summaries delivered via webhook.*
+
+---
+
+### WhatsApp Webhook - Stock Market Query
+![WhatsApp Webhook Stock Market Query](docs/images/whatsapp_stock_market.png)
+*Targeted WhatsApp response for financial queries ("indian stock market news") showing curated market updates.*
+
+---
+
 ## Quick Start & Installation
 
 ### 1. Clone & Setup Project
@@ -139,6 +171,8 @@ news_agents/
 │   ├── services/                # Background scheduler & digest dispatcher
 │   ├── config.py                # Pydantic settings loading
 │   └── models.py                # API data schemas
+├── docs/
+│   └── images/                  # Application UI & WhatsApp demo screenshots
 ├── static/
 │   └── index.html               # Single Page Application Web Dashboard
 ├── cli.py                       # Command line interface tool
