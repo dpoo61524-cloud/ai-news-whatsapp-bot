@@ -77,6 +77,18 @@ graph TD
 
 ---
 
+### WhatsApp Webhook - Semantic Vector Search
+![WhatsApp Webhook Semantic Search](docs/images/whatsapp_search.png)
+*WhatsApp interaction performing vector similarity search over ChromaDB storage for custom queries ("search OpenAI").*
+
+---
+
+### WhatsApp Webhook - Topic Subscriptions
+![WhatsApp Webhook Topic Subscriptions](docs/images/whatsapp_subscriptions.png)
+*WhatsApp interaction for subscribing to automated daily topic digests and querying active subscriptions.*
+
+---
+
 ## Quick Start & Installation
 
 ### 1. Clone & Setup Project
