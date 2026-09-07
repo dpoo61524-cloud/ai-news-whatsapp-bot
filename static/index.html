@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Portal & Assistant</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-body: #070b09;
+            --bg-card: #101714;
+            --bg-card-hover: #16221c;
+            --bg-header: #0c120f;
+            --border-color: #1f3328;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --accent-green: #34d399;
+            --text-main: #f1f5f9;
+            --text-muted: #9ca3af;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-header);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.85rem 1.5rem;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #05140d;
+        }
+
+        .brand-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 0.35rem;
+            background: #0d1410;
+            padding: 0.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: #05140d;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1200px;
+            margin: 1.5rem auto;
+            padding: 0 1.25rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Action Toolbar */
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.6rem 0.85rem 0.6rem 2.3rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: #05140d;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: background 0.15s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .secondary-btn {
+            background: #16221c;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .secondary-btn:hover {
+            background: #1f3027;
+        }
+
+        /* Category Filter Pills */
+        .category-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-pill {
+            background: #0f1814;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.35rem 0.85rem;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .cat-pill:hover {
+            color: var(--text-main);
+            background: #16221c;
+        }
+
+        .cat-pill.active {
+            background: var(--primary);
+            color: #05140d;
+            font-weight: 600;
+            border-color: var(--primary);
+        }
+
+        /* News Cards Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .news-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .news-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--primary);
+        }
+
+        .card-tags {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .tag-category {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.6rem;
+            line-height: 1.35;
+            text-decoration: none;
+            display: block;
+        }
+
+        .card-title:hover {
+            color: var(--accent-green);
+        }
+
+        .card-summary {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .card-source {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .read-more {
+            color: var(--accent-green);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* Search Section */
+        .search-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Chat UI */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 180px);
+            max-height: 700px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: #0d1410;
+            padding: 0.85rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-bot-info {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .bot-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #05140d;
+            font-size: 0.9rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.25rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 0.6rem;
+            max-width: 80%;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+        }
+
+        .msg-bubble {
+            background: #16221c;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .message.user .msg-bubble {
+            background: var(--primary);
+            color: #05140d;
+            font-weight: 500;
+            border: none;
+        }
+
+        .msg-intent {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .quick-reply-buttons {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-reply {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--accent-green);
+            padding: 0.35rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-reply:hover {
+            background: var(--primary);
+            color: #05140d;
+            font-weight: 600;
+        }
+
+        .chat-input-area {
+            padding: 0.85rem 1.25rem;
+            background: #0d1410;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.6rem 1rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary);
+        }
+
+        .chip-container {
+            display: flex;
+            gap: 0.4rem;
+            padding: 0.6rem 1.25rem;
+            background: #0b120e;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.3rem 0.7rem;
+            border-radius: 14px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .chip:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Subscriptions */
+        .sub-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            background: #0b120e;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.6rem 0.85rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background: #0d1410;
+            color: var(--text-muted);
+            padding: 0.6rem 0.85rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.75rem 0.85rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: #101714;
+            border: 1px solid var(--primary);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.25s ease;
+            font-size: 0.85rem;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-newspaper"></i>
+                </div>
+                <div>
+                    <div class="brand-title">News Portal</div>
+                </div>
+            </a>
+
+            <!-- Navigation Tabs -->
+            <nav class="nav-tabs">
+                <button class="nav-btn active" onclick="switchTab('feed')">
+                    <i class="fa-solid fa-newspaper"></i> News Feed
+                </button>
+                <button class="nav-btn" onclick="switchTab('search')">
+                    <i class="fa-solid fa-magnifying-glass"></i> Search
+                </button>
+                <button class="nav-btn" onclick="switchTab('subscriptions')">
+                    <i class="fa-solid fa-bookmark"></i> Subscriptions
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Tab 1: News Feed -->
+        <div id="tab-feed" class="tab-content active">
+            <div class="toolbar">
+                <div class="search-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="feed-search-input" class="search-input" placeholder="Search news headlines..." oninput="filterArticles()">
+                </div>
+                <button class="action-btn" id="ingest-btn" onclick="triggerIngestion()">
+                    <i class="fa-solid fa-rotate-right"></i> Fetch Latest Feeds
+                </button>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="category-filters">
+                <button class="cat-pill active" onclick="filterCategory('All', event)">All Categories</button>
+                <button class="cat-pill" onclick="filterCategory('India', event)">India News</button>
+                <button class="cat-pill" onclick="filterCategory('World', event)">World News</button>
+                <button class="cat-pill" onclick="filterCategory('Business', event)">Business</button>
+                <button class="cat-pill" onclick="filterCategory('Stock Market', event)">Stock Market</button>
+                <button class="cat-pill" onclick="filterCategory('Crypto', event)">Crypto</button>
+                <button class="cat-pill" onclick="filterCategory('Technology', event)">Technology</button>
+                <button class="cat-pill" onclick="filterCategory('Science', event)">Science</button>
+                <button class="cat-pill" onclick="filterCategory('Entertainment', event)">Entertainment</button>
+            </div>
+
+            <div class="news-grid" id="news-grid-container">
+                <!-- Articles rendered dynamically -->
+            </div>
+        </div>
+
+        <!-- Tab 2: Search -->
+        <div id="tab-search" class="tab-content">
+            <div class="search-panel">
+                <h2 style="font-family: 'Outfit'; margin-bottom: 0.4rem; font-size: 1.2rem;">Article Search</h2>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;">Find relevant news stories by entering keywords or topics below.</p>
+                
+                <div class="search-box" style="margin-bottom: 1rem;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="vector-query-input" class="search-input" placeholder="e.g. economy, world news, tech updates..." onkeyup="handleVectorSearchKey(event)">
+                </div>
+
+                <div style="display: flex; gap: 0.75rem;">
+                    <button class="action-btn" onclick="executeVectorSearch()">
+                        <i class="fa-solid fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+
+            <div class="news-grid" id="vector-results-container">
+                <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2.5rem;">
+                    <p>Enter a topic above to search through indexed news articles.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: Subscriptions -->
+        <div id="tab-subscriptions" class="tab-content">
+            <div class="sub-card">
+                <h2 style="font-family: 'Outfit'; margin-bottom: 0.4rem; font-size: 1.2rem;">Topic Subscriptions</h2>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;">Subscribe to specific topics for regular updates.</p>
+
+                <form id="subscription-form" onsubmit="handleCreateSubscription(event)">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">User Identifier</label>
+                            <input type="text" id="sub-phone" class="form-control" placeholder="user1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Topic Category</label>
+                            <select id="sub-topic" class="form-control">
+                                <option value="All">All Categories</option>
+                                <option value="India">India News</option>
+                                <option value="World">World News</option>
+                                <option value="Business">Business & Finance</option>
+                                <option value="Stock Market">Stock Market & Investing</option>
+                                <option value="Crypto">Crypto & Web3</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Science">Science & Environment</option>
+                                <option value="Entertainment">Entertainment</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Digest Time</label>
+                            <input type="text" id="sub-time" class="form-control" value="08:00" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="action-btn" style="margin-top: 0.4rem;">
+                        <i class="fa-solid fa-plus"></i> Save Subscription
+                    </button>
+                </form>
+            </div>
+
+            <div class="sub-card">
+                <h3 style="font-family: 'Outfit'; margin-bottom: 0.85rem; font-size: 1.1rem;">Saved Subscriptions</h3>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Topic</th>
+                                <th>Digest Time</th>
+                                <th>Status</th>
+                                <th>Date Added</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscriptions-table-body">
+                            <!-- Rendered dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="toast">
+        <i class="fa-solid fa-circle-check" id="toast-icon"></i>
+        <span id="toast-message">Notification message</span>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let allArticles = [];
+        let selectedCategory = 'All';
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+            if (activeBtn) activeBtn.classList.add('active');
+            
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+
+            if (tabId === 'subscriptions') {
+                loadSubscriptions();
+            }
+        }
+
+        // Toast Notification
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast-notification');
+            const icon = document.getElementById('toast-icon');
+            document.getElementById('toast-message').innerText = message;
+
+            if (isError) {
+                toast.style.borderColor = '#ef4444';
+                icon.className = 'fa-solid fa-circle-exclamation';
+                icon.style.color = '#ef4444';
+            } else {
+                toast.style.borderColor = '#10b981';
+                icon.className = 'fa-solid fa-circle-check';
+                icon.style.color = '#34d399';
+            }
+
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Fetch & Render Articles
+        async function fetchArticles() {
+            try {
+                const res = await fetch('/api/articles?limit=50');
+                if (!res.ok) throw new Error('Failed to fetch articles');
+                allArticles = await res.json();
+                
+                // If fewer than 10 articles exist in DB, automatically trigger fast ingestion
+                if (allArticles.length < 10) {
+                    await triggerIngestion(true);
+                    return;
+                }
+
+                filterArticles();
+            } catch (err) {
+                console.error(err);
+                showToast('Failed to load news articles', true);
+            }
+        }
+
+        function filterCategory(cat, evt) {
+            selectedCategory = cat;
+            document.querySelectorAll('.cat-pill').forEach(btn => btn.classList.remove('active'));
+            if (evt) evt.target.classList.add('active');
+            filterArticles();
+        }
+
+        function filterArticles() {
+            const query = document.getElementById('feed-search-input').value.toLowerCase();
+            let filtered = allArticles;
+
+            if (selectedCategory !== 'All') {
+                filtered = filtered.filter(a => (a.category || 'World').toLowerCase() === selectedCategory.toLowerCase());
+            }
+
+            if (query) {
+                filtered = filtered.filter(a => 
+                    a.title.toLowerCase().includes(query) || 
+                    (a.summary && a.summary.toLowerCase().includes(query)) ||
+                    (a.category && a.category.toLowerCase().includes(query))
+                );
+            }
+
+            renderArticles(filtered);
+        }
+
+        function renderArticles(articles, containerId = 'news-grid-container') {
+            const container = document.getElementById(containerId);
+            if (!articles || articles.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2.5rem;">
+                        <p>No articles found for this filter. Click "Fetch Latest Feeds" to update news stories.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = articles.map(art => `
+                <div class="news-card">
+                    <div>
+                        <div class="card-tags">
+                            <span class="tag tag-category">${escapeHtml(art.category || 'General')}</span>
+                        </div>
+                        <a href="${escapeHtml(art.url)}" target="_blank" class="card-title">${escapeHtml(art.title)}</a>
+                        <p class="card-summary">${escapeHtml(art.summary || (art.content ? art.content.substring(0, 140) + '...' : 'No summary available.'))}</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-source"><i class="fa-solid fa-newspaper"></i> ${escapeHtml(art.source || 'News Source')}</span>
+                        <div style="display: flex; gap: 0.6rem; align-items: center;">
+                            <a href="https://api.whatsapp.com/send?text=${encodeURIComponent('*' + (art.title || '') + '*\n\n' + (art.summary || '') + '\n\nSource: ' + (art.url || ''))}" target="_blank" class="read-more" style="color: #34d399; font-weight: 500;" title="Send summary to WhatsApp">
+                                <i class="fa-brands fa-whatsapp"></i> Share
+                            </a>
+                            <a href="${escapeHtml(art.url)}" target="_blank" class="read-more">Read Source <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Fast Ingestion
+        async function triggerIngestion(silent = false) {
+            const btn = document.getElementById('ingest-btn');
+            if (!silent) {
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Fetching...`;
+            }
+
+            try {
+                const res = await fetch('/api/ingest', { method: 'POST' });
+                const data = await res.json();
+                
+                const artRes = await fetch('/api/articles?limit=50');
+                allArticles = await artRes.json();
+                filterArticles();
+
+                if (!silent) {
+                    showToast(`Feeds updated successfully (${data.inserted_count || 0} new stories added).`);
+                }
+            } catch (err) {
+                console.error(err);
+                if (!silent) showToast('Error fetching feeds', true);
+            } finally {
+                if (!silent) {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-rotate-right"></i> Fetch Latest Feeds`;
+                }
+            }
+        }
+
+        // Vector Search
+        function handleVectorSearchKey(e) {
+            if (e.key === 'Enter') executeVectorSearch();
+        }
+
+        async function executeVectorSearch() {
+            const query = document.getElementById('vector-query-input').value.trim();
+            if (!query) return;
+
+            const container = document.getElementById('vector-results-container');
+            container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 2rem;"><p><i class="fa-solid fa-spinner fa-spin"></i> Searching database...</p></div>`;
+
+            try {
+                const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=10`);
+                const results = await res.json();
+                
+                if (!results || results.length === 0) {
+                    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;"><p>No matching articles found.</p></div>`;
+                    return;
+                }
+
+                const formatted = results.map(r => ({
+                    title: r.metadata.title || 'Untitled Article',
+                    url: r.metadata.url || '#',
+                    summary: r.document ? `${r.document.substring(0, 140)}...` : 'Matching content snippet',
+                    category: r.metadata.category || 'Search Result',
+                    source: r.metadata.source || 'Database'
+                }));
+
+                renderArticles(formatted, 'vector-results-container');
+            } catch (err) {
+                console.error(err);
+                showToast('Search failed', true);
+            }
+        }
+
+        // Chat Logic
+        function handleChatKey(e) {
+            if (e.key === 'Enter') sendChatMessage();
+        }
+
+        function sendChipQuery(text) {
+            document.getElementById('chat-input-field').value = text;
+            sendChatMessage();
+        }
+
+        async function sendChatMessage(textOverride = null) {
+            const input = document.getElementById('chat-input-field');
+            const message = textOverride || input.value.trim();
+            if (!message) return;
+
+            if (!textOverride) input.value = '';
+
+            const chatBox = document.getElementById('chat-messages-box');
+
+            chatBox.innerHTML += `
+                <div class="message user">
+                    <div class="msg-bubble">${escapeHtml(message)}</div>
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `
+                <div class="message bot" id="${loadingId}">
+                    <div class="msg-bubble"><i class="fa-solid fa-ellipsis fa-spin"></i> Thinking...</div>
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message, sender_id: 'user1' })
+                });
+
+                const data = await res.json();
+                document.getElementById(loadingId)?.remove();
+
+                let buttonsHtml = '';
+                if (data.buttons && data.buttons.length > 0) {
+                    buttonsHtml = `
+                        <div class="quick-reply-buttons">
+                            ${data.buttons.map(b => `<button class="btn-reply" onclick="sendChatMessage('${escapeHtml(b.id || b.title)}')">${escapeHtml(b.title)}</button>`).join('')}
+                        </div>
+                    `;
+                }
+
+                chatBox.innerHTML += `
+                    <div class="message bot">
+                        <div class="msg-bubble">
+                            ${escapeHtml(data.reply_text)}
+                            ${buttonsHtml}
+                        </div>
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById(loadingId)?.remove();
+                chatBox.innerHTML += `
+                    <div class="message bot">
+                        <div class="msg-bubble" style="color: #fca5a5;">
+                            Sorry, an error occurred while processing your query.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function clearChat() {
+            document.getElementById('chat-messages-box').innerHTML = `
+                <div class="message bot">
+                    <div class="msg-bubble">Hello!, you can ask me to summarize the news or to find news across world, science, entertainment, etc.</div>
+                </div>
+            `;
+        }
+
+        // Subscriptions Logic
+        async function loadSubscriptions() {
+            try {
+                const res = await fetch('/api/subscriptions');
+                const subs = await res.json();
+                const tbody = document.getElementById('subscriptions-table-body');
+
+                if (!subs || subs.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No subscriptions saved yet.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = subs.map(s => `
+                    <tr>
+                        <td><strong>${escapeHtml(s.user_phone)}</strong></td>
+                        <td><span class="tag tag-category">${escapeHtml(s.topic)}</span></td>
+                        <td>${escapeHtml(s.digest_time)}</td>
+                        <td><span style="color: var(--accent-green);">Active</span></td>
+                        <td>${new Date(s.created_at).toLocaleDateString()}</td>
+                    </tr>
+                `).join('');
+
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function handleCreateSubscription(e) {
+            e.preventDefault();
+            const phone = document.getElementById('sub-phone').value.trim();
+            const topic = document.getElementById('sub-topic').value;
+            const time = document.getElementById('sub-time').value.trim();
+
+            try {
+                const res = await fetch('/api/subscriptions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_phone: phone, topic: topic, digest_time: time })
+                });
+
+                if (res.ok) {
+                    showToast('Subscription saved!');
+                    loadSubscriptions();
+                } else {
+                    showToast('Error saving subscription', true);
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Error saving subscription', true);
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchArticles();
+        });
+    </script>
+</body>
+</html>

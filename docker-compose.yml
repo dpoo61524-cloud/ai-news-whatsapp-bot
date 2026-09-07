@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  news_db:
+    image: postgres:16-alpine
+    container_name: news_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: news_user
+      POSTGRES_PASSWORD: news_pass
+      POSTGRES_DB: news_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U news_user -d news_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  news_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: news_agents_app
+    restart: always
+    depends_on:
+      news_db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+      - DATABASE_URL=postgresql+psycopg2://news_user:news_pass@news_db:5432/news_db
+      - CHROMA_PERSIST_DIR=/app/chroma_db
+      - SIMILARITY_THRESHOLD=0.85
+      - WHATSAPP_VERIFY_TOKEN=news_agents_verify_token
+    volumes:
+      - chroma_data:/app/chroma_db
+
+volumes:
+  postgres_data:
+  chroma_data:
