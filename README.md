@@ -1,4 +1,4 @@
-# AI Multi-Agent News Platform & Interactive WhatsApp Webhook Bot 📰🤖
+# AI Multi-Agent News Platform & Interactive WhatsApp Webhook Bot
 
 ![Python Version](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg)
@@ -10,18 +10,18 @@ An autonomous multi-agent news intelligence platform that ingests RSS feeds, per
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
-* **⚡ Real-Time RSS Ingestion:** Parallel crawling across multi-category news sources (Stock Market, Technology, India News, Crypto, Science, Business) with sub-2-second execution.
-* **🧠 Vector Semantic Deduplication:** Employs ChromaDB vector storage and OpenAI embeddings (`text-embedding-3-small`) to eliminate duplicate stories across multiple news feeds.
-* **📱 WhatsApp Webhook Bot:** Full integration with Twilio and Meta WhatsApp Cloud API supporting intent routing (`Latest News`, `Stock Market`, `Category Filtering`, `Subscriptions`).
-* **💻 Interactive Dark-Mode Web Dashboard:** Single Page Application (SPA) featuring live article feeds, instant category filters, and semantic vector search.
-* **⏰ Automated Topic Subscriptions:** Users can subscribe to topics (e.g. `Stock Market`, `Tech`) to receive automated scheduled WhatsApp digests.
-* **🛡️ Security & Performance:** Pre-cached $O(1)$ memory hash checks, CDATA XML formatting, and character chunking to ensure compliance with messaging constraints.
+* **Real-Time RSS Ingestion:** Parallel crawling across multi-category news sources (Stock Market, Technology, India News, Crypto, Science, Business) with sub-2-second execution.
+* **Vector Semantic Deduplication:** Employs ChromaDB vector storage and OpenAI embeddings (`text-embedding-3-small`) to eliminate duplicate stories across multiple news feeds.
+* **WhatsApp Webhook Bot:** Full integration with Twilio and Meta WhatsApp Cloud API supporting intent routing (`Latest News`, `Stock Market`, `Category Filtering`, `Subscriptions`).
+* **Interactive Dark-Mode Web Dashboard:** Single Page Application (SPA) featuring live article feeds, instant category filters, and semantic vector search.
+* **Automated Topic Subscriptions:** Users can subscribe to topics (e.g. `Stock Market`, `Tech`) to receive automated scheduled WhatsApp digests.
+* **Security & Performance:** Pre-cached $O(1)$ memory hash checks, CDATA XML formatting, and character chunking to ensure compliance with messaging constraints.
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```mermaid
 graph TD
@@ -45,12 +45,12 @@ graph TD
 
 ---
 
-## 🚀 Quick Start & Installation
+## Quick Start & Installation
 
 ### 1. Clone & Setup Project
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git clone https://github.com/dpoo61524-cloud/ai-news-whatsapp-bot.git
 cd news_agents
 ```
 
@@ -97,7 +97,7 @@ python cli.py serve
 
 ---
 
-## 📱 WhatsApp Setup with Twilio
+## WhatsApp Setup with Twilio
 
 1. Run an SSH Tunnel to expose your local port `8000`:
    ```bash
@@ -111,7 +111,7 @@ python cli.py serve
 
 ---
 
-## 🔗 REST API Reference
+## REST API Reference
 
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
@@ -125,7 +125,7 @@ python cli.py serve
 
 ---
 
-## 📂 Project Directory Structure
+## Project Directory Structure
 
 ```text
 news_agents/
@@ -141,7 +141,6 @@ news_agents/
 │   └── models.py                # API data schemas
 ├── static/
 │   └── index.html               # Single Page Application Web Dashboard
-├── tests/                       # Suite of automated unit and integration tests
 ├── cli.py                       # Command line interface tool
 ├── main.py                      # FastAPI server application entrypoint
 ├── Dockerfile                   # Docker build definition
@@ -150,6 +149,6 @@ news_agents/
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the MIT License. See `LICENSE` for details.
